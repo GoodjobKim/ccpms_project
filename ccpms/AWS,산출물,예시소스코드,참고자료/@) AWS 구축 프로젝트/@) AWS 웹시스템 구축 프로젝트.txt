@@ -1,0 +1,246 @@
+@ AWS 서비스 구축 프로젝트 [ 배포소스 예시 기준 ]
+
+
+1. AWS에 무료계정 생성
+
+	1-1) 검색창에 aws를 검색하여 공식홈페이지로 접속
+	1-2) 개인개정 및 무료 관련 설정으로 선택 (계정명과 비밀번호를 잘 기억해야 합니다.)
+	1-3) AWS console로 로그인을 합니다.
+	1-4) 메뉴 우측상단 리전을 '아시아 태평양 서울'로 설정합니다.	
+	
+	- 끝 -
+	
+	
+	
+2. EC2를 생성합니다. ( 리눅스 운영 서버 생성 )
+
+
+	2-1) 인스턴스 시작 버튼을 누릅니다.
+	2-2) 시스템 이름을 작성합니다.
+	2-3) 우분투 18.04 TLS를 선택합니다.
+	2-4) 새로운 키 페어를 생성합니다.
+		- 키 페어 이름 : ~~~_key_pair 입력  ---> aws_ccpms_key_pair
+		- 키 페어 유형 : RSA 선택
+  		- 프라이빗 키 파일 형식  : .ppk 선택
+		- 키 페어 생성 버튼 클릭
+        
+		(복사본도 여러개 생성해놓아서 메일 등 기타 저장소에 백업해 놓으세요.)
+
+	2-5) 방화벽(보안그룹) > 보안 그룹 생성을 클릭합니다.
+	2-6) 스토리지의 구성을 8gb > 30gb로 변경합니다. ( 30gb 까지 무료 이므로 )
+	2-7) 인스턴스 시작을 클릭합니다.
+		
+	2-8) 네트워크 및 보안 > 보안그룹 설정에서 ( 굉장히 중요 )
+	
+		1. ssh    , tcp ,  22   , 0.0.0.0/0     		remote control
+		2. http   , tcp , 80    , 0.0.0.0/0		       web
+		3. mysql, tcp , 3306  , 0.0.0.0/0		       dbms
+		4. 사용자지정 , tcp , 21 , 0.0.0.0/0		  ftp control
+		5. 사용자지정 , tcp , 20 , 0.0.0.0/0		  ftp data
+		6. 사용자지정 , tcp , 8080 , 0.0.0.0/0		   tomcat
+		
+		- 보안그룹 설정의 순서는 아무 상관없습니다.
+		- 지금은 방화벽의 접근제어가 모두 오픈인데 보안적인 이유(취약)로
+		  ssh, oracle, ftp 서비스는 교육과정이 끝나고
+		  프로젝트의 보안 설정을 고민해보고 공부해 보는 것도 아주 좋습니다.
+
+	2-9) 탄력적 IP(변경되지 않는 고정 IP)를 보안그룹탭에서 생성합니다.
+	2-10) 탄력적 IP를 방금생성한 EC2 인스턴스에 연결하는 작업을 진행합니다.
+	2-11) EC2인스턴스에서 탄력적 IP가 잘 연결되어있는지 확인합니다.
+	
+	- 끝 -
+	
+
+3. EC2에서 jdk 및 tomcat을 설치하고 프로젝트 관련 설정을 합니다.
+
+	3-1) 제공된 'putty'를 설치합니다.
+	
+	3-2) putty에서 		ubuntu@3.37.254.191
+		호스트 아이디 :ubuntu@ec2의 public IP(탄력적 IP)
+		> ssh > auth에서 .ppk를 선택후 
+		> open버튼 클릭하여 로그인 합니다.
+				
+	3-3) 서버 관련 프로그램 설치 및 설정을 진행합니다.
+	
+		$sudo apt-get update -y				// 소프트웨어 다운로드 관련 저장소 업데이트
+		$sudo apt-get upgrade -y				// 소프트웨어 다운로드 관련 저장소 업그레이드		
+		$sudo apt-get install -y openjdk-11-jdk 	// 자바 설치
+		$sudo apt-get install -y tomcat9		// 톰캣 설치
+		$sudo service tomcat9 restart		// 톰캣 서비스 시작(restart도 시작에 포함)
+		$sudo service tomcat9 status		// 톰캣 서비스 상태 확인 (running)이면 OK!		
+		$sudo apt-get install vsftpd -y		// 파일 공유 서비스 설치
+		$sudo vi /etc/vsftpd.conf			// ftp설정 파일 열기
+		
+		-----------------------------------------------------
+		[무언가 잘못됬다 싶으면 esc를 누르고 :q!를 입력하여 강제 종료하고 다시 파일을 엽니다.]
+		
+			:set number
+		
+			i를 눌러서 편집모드로 변경
+			
+			31번 write_enble=YES			 					> 주석해지
+			35번 local_umask=022			  					> 주석해지
+			142번 secure_chroot_dir=/var/run/vsftpd/empty 	> 주석
+			145번 pam_service_name=vsftpd  					> 주석
+			149 rsa_cert ~~ 								> 주석
+			150 rsa_pricate_key ~~ 							> 주석
+			151 ssl_enable 									> 주석
+			
+			esc를 눌러서 제어모드로 변경
+			:wq!											> 저장후 종료
+		
+		---------------------------------------------------------
+		
+		$sudo chmod 777 /var/lib/tomcat9					// tomcat폴더의 권한을 모든 것이 가능하도록 수정(읽기,쓰기,실행)
+		$cd /var/lib/tomcat9/						// tomcat의 관리 폴더로 이동
+		$sudo mkdir file_repository						// 이미지 파일을 저장할 폴더 생성
+		$sudo chown tomcat.tomcat file_repository					// 파일의 소유자와 소유그룹을 ubuntu > tomcat으로 설정				
+		$sudo chmod 777 -R file_repository					// file_repository폴더 포함 하위의 모든 폴더에 모든것이 가능하도록 수정(읽기,쓰기,실행)
+		$sudo chmod 777 webapps						// webapps폴더에 모든것이 가능하도록 수정(읽기,쓰기,실행)
+		
+		$sudo vi /etc/systemd/system/multi-user.target.wants/tomcat9.service		// tomcat9 버전 이후부터 파일 업로드시 보안설정이 필요하여 설정파일 편집 
+		--------------------------------------------------------------------------
+		# Security 맨밑에		
+
+		ReadWritePaths=/var/lib/tomcat9/file_repository				// 업로드 폴더 추가
+
+		:wq!								// 저장후 종료
+		-----------------------------------------------------------------------------
+		$sudo systemctl daemon-reload					// 재시작하여 관련 설정 적용
+		$sudo service tomcat9 restart					// 재시작하여 관련 설정 적용
+
+
+		$sudo service vsftpd restart						// 파일공유 서비스 시작(restart도 시작에 포함)
+		$sudo service vsftpd status						// 파일공유 서비스 상태 확인(running)이면 OK!
+		
+		$sudo passwd ubuntu           					// 리눅스 기본생성 계정에 비밀번호 설정 
+		Sh@d0w							// 파일질라의 로그인 비밀번호
+		Sh@d0w
+		
+		
+	- 끝 -
+
+
+4. 웹시스템 접근 경로 수정
+
+	4-1) 포트 포워딩 작업을 진행합니다. 
+		> putty로 원격접속합니다. 
+		> $sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+		   (80번 포트로 접속한 서비스를 8080으로 리다이렉트 시키겠다.  웹서버 접속시 > tomcat으로 연결시킨다.])
+	
+	
+	4-2) 웹서비스 접근 경로 수정하기 ( /bms/ 삭제)
+		
+		- $sudo vi /var/lib/tomcat9/conf/server.xml // 톰캣 서버 설정 파일열기 
+		
+		 <Host name="localhost"  appBase="webapps"
+				unpackWARs="true" autoDeploy="true">		// 이 밑에
+		
+		<Context path="" docBase="프로젝트명" reloadable="true" /> // 기록 															// www.도메인/main/main.do로 접속하는 설정
+			
+		:wq!로 종료
+		
+		
+		- $sudo service tomcat9 restart ( 서비스 설정을 수정하였으니 서버를 재시작합니다. )
+		
+	- 앞으로 공인ip:8080/bms/ 가 아닌 공인ip로 접근 가능합니다.
+
+	- 끝 -
+	
+
+	
+5. 유료 도메인 구매 및 적용
+
+	
+	https://coding-factory.tistory.com/481  > 가비아 도메인 구매 방법 블로그 참조
+	https://sovovy.tistory.com/37 			> aws 가비아 도메인 연결 방법 블로그 참조
+
+	- www.내 도메인 형태로 접속하면 aws를 이용한 서비스 배포가 된 것을 확인할 수 있습니다.
+	
+	- 끝 -	
+	
+	
+6. RDS 생성 ( AWS Mysql 데이터 베이스 생성 )
+
+
+	6-1) RDS생성
+		
+		- https://twofootdog.tistory.com/41 ( 해당 블로그 참조 )
+		
+		- 프리티어가 가능한 버전으로 생성합니다. (Mysql  8.0.28 버전)
+		- 퍼블릭 허용으로 셋팅한다. ( 원격에서 rds로 접속 가능할 수 있도록 )
+		- DB 관련정보 잘 메모하여 기억합니다.
+		
+			ex)
+			엔진 명   :  ~~~			
+			아이디    :	 admin
+			비밀번호  : -----     ( 평소에 쓰지 않는 비밀번호로 복잡하게 작성 ) k5575353!
+			포트 번호 : 3306			
+		
+	
+	
+	6-2) mysqlWorkbench를 이용하여 테이블 생성 쿼리 작성합니다.
+	
+		- mysqlWorkbench로 RDS에 원격접속 합니다.
+			> + 버튼 클릭			
+			Connection Name : 시스템이름			
+			HostName        : RDS의 엔드 포인트
+            Port            : 3306
+			UserName        : admin
+			Password        : 자신의 패스워드
+						
+		- create database 및 create table  쿼리문 복사 & 붙여넣기 이후 실행합니다.
+	
+	
+	- 끝 - 
+	
+	
+	
+		
+7.  FTP 서버 설정
+
+	7-1) 제공된 파일질라 클라이언트를 설치합니다.  ( 어베스트[보안프로그램]가 내의도에 상관없이 설치되지 않도록 화면을 유심히 볼것 )
+	7-2) 사이트 관리자 클릭
+		> NEW SITE 클릭
+		> 프로토콜      : FTP 파일 전송 프로토콜
+		   호스트      : EC2의 퍼블릭 Ip
+		   포트       : 21
+		  암호화       : 평문 FTP만사용(보안취약)
+		 로그온 유형    : 비밀번호 묻기
+		  사용자       : ubuntu
+	       전송설정 태그 : 능동형 클릭
+
+		> 연결 (비밀번호 Sh@d0w , 디렉토리 목록이 조회되면 성공)
+	
+	- 끝 - 
+		  
+8. 소스 파일배포
+
+	8-1) db연결 설정 정보 변경(기존 정보는 주석처리하고 aws의 rds로 연결합니다.)
+		jdbc.driverClassName=com.mysql.jdbc.Driver   (이 설정은 바뀌지 않습니다.)
+		
+		#바뀐 연결정보
+		jdbc.url=jdbc:mysql://엔드포인트:3306/bms?serverTimezone=UTC
+		jdbc.username=awsDB아이디			
+		jdbc.password=awsDB비번		
+
+		# 기존 연결정보
+		#jdbc.url=jdbc:mysql://localhost:3306/bms?serverTimezone=UTC
+		#jdbc.username=root
+		#jdbc.password=1234
+
+	8-2) 파일 저장 경로 변경합니다. 
+
+		- 리눅스와 윈도우가 다른 OS이기 때문에 파일 저장경로를 배포할때 바꾸어주고 배포하여야 합니다.	
+		
+		- 테스트할때는 파일 저장경로를 윈도우로 설정하고 db연결정보를 로컬로 설정해야 합니다. 
+		
+		- 배포용 소스에서는 aws의 rds접속 정보로 변경하고 파일 저장경로를 변경하여 export를 하여야 합니다.
+		    (이 과정에서 잊어먹는 것 및 빼먹는 것 등등 실수를 많이 합니다. 
+		       하지만 많이 반복하면서 실수가 줄게 되고 잊어먹지 않게 됩니다. )
+					
+		- export된 bms.war를 /var/lib/tomcat9/webapps 폴더에 파일질라를 이용하여 이동시킵니다.
+		
+		- putty를 이용하여 원격접속을 한후 $sudo service tomcat9 restart를 실행합니다.
+	
+	- 끝 -

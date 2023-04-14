@@ -1,0 +1,16 @@
+# 데이터 초기화 [ 배포 소스 예시 기준 ]
+
+@Window(개발)
+
+1. local DB에서 drop query 실행
+2. C:\file_repo에서 이미지파일 모두 삭제
+3. C:\프로젝트명\logs에서 로그파일 모두 삭제
+
+
+@Linux (AWS 운영)
+
+1. AWS DB에서 drop query 실행
+[ 파일질라 이용 ]
+2. /var/lib/tomcat9/file_repo에서 이미지파일 모두 삭제
+3./var/lib/tomcat9/에서 로그파일들 모두 삭제
+

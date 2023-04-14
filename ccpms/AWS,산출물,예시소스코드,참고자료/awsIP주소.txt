@@ -1,0 +1,5 @@
+EC2 공인 IP : 3.37.254.191
+RDS EndPoint : ccpms.cgctbhhpjgti.ap-northeast-2.rds.amazonaws.com
+RDS 계정 : admin
+RDS 비밀번호 : k5575353!
+putty Host Name : ubuntu@3.37.254.191

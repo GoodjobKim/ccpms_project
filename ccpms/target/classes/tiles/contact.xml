@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  
+  <tiles-definitions>
+  	<definition name="/contact/FAQ" extends="baseLayout">
+		<put-attribute name="title" value="자주묻는 질문"/>
+		<put-attribute name="body" value="/WEB-INF/views/client/contact/FAQ.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/contactNotice" extends="baseLayout">
+  		<put-attribute name="title" value="게시글목록"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/contactNotice.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/addBoard" extends="baseLayout">
+  		<put-attribute name="title" value="게시글 등록"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/addBoard.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/contactDetail" extends="baseLayout">
+  		<put-attribute name="title" value="게시글 상세보기"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/contactDetail.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/contactModify" extends="baseLayout">
+  		<put-attribute name="title" value="게시글 수정"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/contactModify.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/contactRemove" extends="baseLayout">
+  		<put-attribute name="title" value="게시글 삭제"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/contactRemove.jsp"/>
+  	</definition>
+  	
+  	<definition name="/contact/replyModify" extends="baseLayout">
+  		<put-attribute name="title" value="댓글 수정"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/replyModify.jsp"/>
+  	</definition>
+
+  	<definition name="/contact/replyRemove" extends="baseLayout">
+  		<put-attribute name="title" value="댓글 삭제"/>
+  		<put-attribute name="body" value="/WEB-INF/views/client/contact/replyRemove.jsp"/>
+  	</definition>
+  	
+  	
+  	
+  </tiles-definitions>

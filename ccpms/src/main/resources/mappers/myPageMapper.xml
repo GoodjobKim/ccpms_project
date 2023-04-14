@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="myPageMapper">
+
+	<select id="selectOneMyInfo" parameterType="String" resultType="MemberDTO">
+		SELECT	*
+		FROM	MEMBER
+		WHERE	MEMBER_ID = #{memberId}
+	</select>
+	
+	<update id="updateMyInfo" parameterType="MemberDTO">
+		UPDATE	MEMBER
+		<set>
+			<if test="memberNm != null and memberNm != ''">
+				MEMBER_NM = #{memberNm},			
+			</if>
+			<if test="passwd != null and passwd != ''">
+				PASSWD = #{passwd},			
+			</if>
+			<if test="sex != null and sex != ''">
+				SEX = #{sex},			
+			</if>
+			<if test="hp != null and hp != ''">
+				HP = #{hp},			
+			</if>
+			<if test="smsstsYn != null and smsstsYn != ''">
+				SMSSTS_YN = #{smsstsYn},			
+			</if>
+			<if test="email != null and email != ''">
+				EMAIL = #{email},			
+			</if>
+			<if test="emailstsYn != null and emailstsYn != ''">
+				EMAILSTS_YN = #{emailstsYn},		
+			</if>
+			<if test="zipcode != null and zipcode != ''">
+				ZIPCODE = #{zipcode},			
+			</if>
+			<if test="roadAddress != null and roadAddress != ''">
+				ROAD_ADDRESS = #{roadAddress},			
+			</if>
+			<if test="jibunAddress != null and jibunAddress != ''">
+				JIBUN_ADDRESS = #{jibunAddress},			
+			</if>
+			<if test="namujiAddress != null and namujiAddress != ''">
+				NAMUJI_ADDRESS = #{namujiAddress},			
+			</if>
+		</set>
+		WHERE	MEMBER_ID = #{memberId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		DELETE FROM	MEMBER
+		WHERE		MEMBER_ID = #{memberId}	
+	</delete>
+	
+	<delete id="deleteCartList" parameterType="String">
+		DELETE FROM	CART
+		WHERE		MEMBER_ID = #{memberId}
+	</delete>
+	
+	<delete id="deleteOrderList" parameterType="String">
+		DELETE FROM	`ORDER`
+		WHERE		MEMBER_ID = #{memberId}
+	</delete>
+
+	<resultMap type="hashMap" id="myOrderListMap">
+		<result column="ORDER_CD" property="orderCd"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="ORDER_GOODS_QTY" property="orderGoodsQty"/>
+		<result column="PAYMENT_AMT" property="paymentAmt"/>
+		<result column="PAY_ORDER_TIME" property="payOrderTime"/>
+		<result column="DELIVERY_STATUS" property="deliveryStatus"/>
+		<result column="GOODS_CD" property="goodsCd"/>
+		<result column="GOODS_NM" property="goodsNm"/>
+		<result column="GOODS_FILE_NAME" property="goodsFileName"/>
+		<result column="PRICE" property="price"/>
+	</resultMap>
+
+	<select id="selectListMyOrder" parameterType="String" resultMap="myOrderListMap">
+		SELECT	O.ORDER_CD			AS	ORDER_CD,
+				O.MEMBER_ID			AS	MEMBER_ID,
+				O.ORDER_GOODS_QTY	AS	ORDER_GOODS_QTY,
+				O.PAYMENT_AMT		AS	PAYMENT_AMT,
+				O.PAY_ORDER_TIME	AS	PAY_ORDER_TIME,
+				O.DELIVERY_STATUS	AS	DELIVERY_STATUS,
+				G.GOODS_CD			AS	GOODS_CD,
+				G.GOODS_NM			AS	GOODS_NM,
+				G.GOODS_FILE_NAME	AS	GOODS_FILE_NAME,
+				G.PRICE				AS	PRICE
+		FROM	`ORDER`	O
+				JOIN	GOODS	G
+				ON		O.GOODS_CD = G.GOODS_CD
+				AND		O.MEMBER_ID = #{memberId}
+	</select>
+	
+	<delete id="deleteMyOrder" parameterType="long">
+		DELETE FROM	`ORDER`
+		WHERE		ORDER_CD = #{orderCd}
+	</delete>
+	
+	<resultMap type="hashMap" id="myCartListMap">
+		<result column="CART_CD" property="cartCd"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="CART_GOODS_QTY" property="cartGoodsQty"/>
+		<result column="ENROLL_DT" property="enrollDt"/>
+		<result column="GOODS_CD" property="goodsCd"/>
+		<result column="GOODS_NM" property="goodsNm"/>
+		<result column="PRICE" property="price"/>
+		<result column="DISCOUNT_RATE" property="discountRate"/>
+		<result column="POINT" property="point"/>
+		<result column="GOODS_FILE_NAME" property="goodsFileName"/>
+		<result column="STOCK" property="stock"/>
+	</resultMap>
+	
+	<select id="selectListMyCart" parameterType="String" resultMap="myCartListMap">
+		SELECT		C.CART_CD			AS	CART_CD,
+					C.MEMBER_ID			AS	MEMBER_ID,
+					C.CART_GOODS_QTY	AS	CART_GOODS_QTY,
+					C.ENROLL_DT			AS	ENROLL_DT,
+					G.GOODS_CD			AS	GOODS_CD,
+					G.GOODS_NM			AS	GOODS_NM,
+					G.PRICE				AS 	PRICE,
+					G.DISCOUNT_RATE		AS	DISCOUNT_RATE,
+					G.POINT				AS	POINT,
+					G.GOODS_FILE_NAME	AS	GOODS_FILE_NAME,
+					G.STOCK				AS	STOCK
+		FROM		CART	C
+					JOIN	GOODS	G
+					ON		C.GOODS_CD = G.GOODS_CD
+		WHERE		C.MEMBER_ID = #{memberId}
+		ORDER BY	C.ENROLL_DT DESC
+	</select>
+	
+	<select id="selectOneMyCart" parameterType="String" resultType="int">
+		SELECT	COUNT(*)
+		FROM	CART
+		WHERE	MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectDupleCart" parameterType="hashMap" resultType="CartDTO">
+		SELECT	*
+		FROM	CART
+		WHERE	MEMBER_ID = #{memberId} AND GOODS_CD = #{goodsCd}
+	</select>
+	
+	<insert id="insertCart" parameterType="CartDTO">
+		INSERT INTO CART(	GOODS_CD,
+							CART_GOODS_QTY,
+							MEMBER_ID,
+							ENROLL_DT
+		)
+		VALUES(				#{goodsCd},
+							#{cartGoodsQty},
+							#{memberId},
+							NOW()
+		)
+	</insert>
+	
+	<delete id="deleteCart">
+		DELETE FROM		CART
+		WHERE			CART_CD IN
+		<foreach collection="array" item="cartCd" separator="," open="(" close=")">
+			#{cartCd}
+		</foreach>
+	</delete>
+
+</mapper>
