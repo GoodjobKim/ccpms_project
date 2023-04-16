@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.application.ccpms.goods.dto.GoodsDTO;
+
 @Repository
 public class CommonDAOImpl implements CommonDAO {
 
@@ -22,4 +24,15 @@ public class CommonDAOImpl implements CommonDAO {
 	public List<Map<String, Object>> selectListGoodsNewConsert() throws Exception {
 		return sqlSession.selectList("common.selectListGoodsNewConsert");
 	}
+
+	@Override
+	public List<Map<String, Object>> selectListMusicalRanking() throws Exception {
+		return sqlSession.selectList("common.selectListMusicalRanking");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectListTheaterRanking() throws Exception {
+		return sqlSession.selectList("common.selectListTheaterRanking");
+	}
+
 }

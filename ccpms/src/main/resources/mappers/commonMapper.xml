@@ -15,7 +15,7 @@
 	<select id="selectListGoodsBestConsert" resultMap="mainGoodsMap">
 		SELECT		GOODS_CD, GOODS_NM, GOODS_FILE_NAME, PRICE, START_DT, END_DT, DISCOUNT_RATE
 		FROM		GOODS
-		WHERE		SORT = 'musical'
+		WHERE		SORT IN ('musical','consert','theater','classic')
 		ORDER BY	PUBLISHED_DT DESC
 		LIMIT		3
 	</select>
@@ -26,5 +26,21 @@
 		WHERE		START_DT > (SELECT NOW())
 		ORDER BY	PUBLISHED_DT DESC
 		LIMIT		3
+	</select>
+	
+	<select id="selectListMusicalRanking" resultMap="mainGoodsMap">
+		SELECT		*
+		FROM		GOODS
+		WHERE		SORT = 'musical'
+		ORDER BY	END_DT DESC
+		LIMIT		1
+	</select>
+	
+	<select id="selectListTheaterRanking" resultMap="mainGoodsMap">
+		SELECT		*
+		FROM		GOODS
+		WHERE		SORT = 'theater'
+		ORDER BY	END_DT DESC
+		LIMIT		1
 	</select>
 </mapper>

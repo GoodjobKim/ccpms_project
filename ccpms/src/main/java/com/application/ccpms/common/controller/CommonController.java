@@ -3,6 +3,7 @@ package com.application.ccpms.common.controller;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.application.ccpms.common.service.CommonService;
+import com.application.ccpms.goods.dto.GoodsDTO;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -39,9 +42,13 @@ public class CommonController {
 		
 		mv.addObject("bestConsertInfo", commonService.getBestConsert());
 		mv.addObject("newConsertInfo", commonService.getNewConsert());
+		mv.addObject("bestMusicalRanking", commonService.getBestConsertRanking());
+		mv.addObject("bestTheaterRanking", commonService.getBestTheaterRanking());
 		
 		return mv;
 	}
+	
+	
 	
 	
 	@GetMapping("/thumbnails")															//파일업로드 사진보여줘야하기 때문에 공통기능 사용

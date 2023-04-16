@@ -19,9 +19,9 @@
                         <div class="col-lg-8">
                             <div class="header-info-left">
                                 <ul>                          
-                                    <li>needhelp@ccpms.com</li>
+                                    <li>ccpms CD/LP DVD/BD</li>
+                                    <li>ccpms 라이브 홀 / ccpms 스테이지</li>
                                     <li>010 8651 7239</li>
-                                    <li>chungsu-ro cheon an</li>
                                 </ul>
                             </div>
                         </div>
@@ -32,16 +32,11 @@
                                 		<c:when test="${sessionScope.memberId eq null }">
                                 			<li><i class="fa fa-user"></i><a href="${contextPath }/member/login">Login</a></li>
 		                                    <li><a href="${contextPath }/member/register">Register</a></li>
-		                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-		                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                                 		</c:when>
                                 		<c:otherwise>
                                 			<li><a href="${contextPath }/member/logout">logout</a></li>
-                                			<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-		                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                                 		</c:otherwise>
                                 	</c:choose>
-                                    
                                 </ul>
                             </div>
                         </div>
