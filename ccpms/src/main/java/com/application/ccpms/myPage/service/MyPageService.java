@@ -10,7 +10,7 @@ public interface MyPageService {
 
 	public List<Map<String, Object>> getMyOrderList(String memberId) throws Exception;
 
-	public void removeOrder(long orderCheck) throws Exception;
+	public void removeOrder(int[] deleteOrderCheckList) throws Exception;
 
 	public List<Map<String, Object>> getMyCartList(String memberId) throws Exception;
 

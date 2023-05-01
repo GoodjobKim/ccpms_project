@@ -22,8 +22,8 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 
 	@Override
-	public void deleteMyOrder(long orderCheck) throws Exception {
-		sqlSession.delete("myPageMapper.deleteMyOrder", orderCheck);
+	public void deleteMyOrder(int[] deleteOrderCheckList) throws Exception {
+		sqlSession.delete("myPageMapper.deleteMyOrder", deleteOrderCheckList);
 	}
 
 	@Override

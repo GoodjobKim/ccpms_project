@@ -14,4 +14,8 @@ public interface MemberDAO {
 
 	public int selectMyCartCnt(String memberId) throws Exception;
 
+	public MemberDTO selectId(MemberDTO memberDTO) throws Exception;
+
+	public void resetPasswd(MemberDTO memberDTO) throws Exception;
+
 }

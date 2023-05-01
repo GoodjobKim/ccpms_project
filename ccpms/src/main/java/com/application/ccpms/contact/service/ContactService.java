@@ -16,9 +16,12 @@ public interface ContactService {
 
 	public Contact_boardDTO getBoardDetail(long boardId, boolean isIncreaseReadCnt) throws Exception;
 
-	public boolean modifyBoard(Contact_boardDTO boardDTO) throws Exception;
+	public void modifyBoard(Contact_boardDTO boardDTO) throws Exception;
 	
 	public boolean removeBoard(Contact_boardDTO boardDTO) throws Exception;
+	
+	public void adminRemoveBoard(Contact_boardDTO boardDTO) throws Exception;
+	
 	
 	
 	public int getAllReplyCnt(long boardId) throws Exception;
@@ -29,9 +32,11 @@ public interface ContactService {
 
 	public Contact_replyDTO getReplyDetail(long replyId) throws Exception;
 
-	public boolean modifyReply(Contact_replyDTO replyDTO) throws Exception;
+	public void modifyReply(Contact_replyDTO replyDTO) throws Exception;
 
-	public boolean removeReply(Contact_replyDTO replyDTO) throws Exception;
+	public void removeReply(Contact_replyDTO replyDTO) throws Exception;
+
+	
 
 
 

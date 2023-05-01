@@ -20,7 +20,7 @@
 	<!-- slider Area Start-->
     <div class="slider-area ">
         <!-- Mobile Menu -->
-        <div class="single-slider slider-height2 d-flex align-items-center" data-background="${contextPath }/resources/gotrip-master/assets/img/hero/contact_hero.jpg">
+        <div class="single-slider slider-height2 d-flex align-items-center" data-background="${contextPath }/resources/gotrip-master/assets/img/main/loginbanner.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
@@ -34,7 +34,7 @@
     </div>
 	<!-- slider Area End-->
 	<div class="section-top-border">
-		<h3 class="mb-40">회원목록</h3>
+		<h3 class="mb-40">등록된 공연목록</h3>
 		<div align="right">
 			<input type="button" onclick="javascript:location.href='${contextPath}/admin/goods/adminGoodsAdd'" class="genric-btn success radius" value="등록">
 		</div>

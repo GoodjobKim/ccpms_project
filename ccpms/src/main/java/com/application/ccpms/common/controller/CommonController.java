@@ -26,10 +26,10 @@ public class CommonController {
 	@Autowired
 	private CommonService commonService;
 	
-	private final String GOODS_IMAGE_REPO_PATH = "/Users/worish/Documents/file_repo/";
+//	private final String GOODS_IMAGE_REPO_PATH = "/Users/worish/Documents/file_repo/";
 	
 	//aws에 배포할떄 변경
-//	private final String GOODS_IMAGE_REPO_PATH = "/var/lib/tomcat9/file_repository/";      
+	private final String GOODS_IMAGE_REPO_PATH = "/var/lib/tomcat9/file_repository/";      
 	
 	
 	@GetMapping("/")

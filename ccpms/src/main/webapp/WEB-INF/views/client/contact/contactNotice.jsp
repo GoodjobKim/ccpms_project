@@ -34,12 +34,12 @@
                     <div class="blog_left_sidebar">
                         <div class="progress-table-wrap">
 							<div class="progress-table">
-								<div class="table-head">
-									<div class="percentage" align="right">
-										<select	id="onePageViewCnt" onchange="getBoardList()">
-											<option>5</option>
-											<option>7</option>
-											<option>10</option>
+								<div class="table-head" align="right">
+									<div class="percentage">
+										<select id="onePageViewCnt" onchange="getBoardList()">
+											<option value="5">5개씩 보기</option>
+											<option value="7">7개씩 보기</option>
+											<option value="10">10개씩 보기</option>
 										</select>
 									</div>
 								</div>
@@ -98,7 +98,7 @@
                             			<a href="${contextPath }/contact/contactNotice?currentPageNumber=${i}&onePageViewCnt=${onePageViewCnt}&searchKeyword=${searchKeyword}&searchWord=${searchWord}" class="page-link">${i}</a>
                             		</li>
                             	</c:forEach>
-                                <c:if test="${endPahe != allPageCnt && endPage >= 10 }">
+                                <c:if test="${endPage != allPageCnt && endPage >= 10 }">
                                 	<li class="page-item">
                                 		<a href="${contextPath }/contact/contactNotice?currentPageNumber=${startPage + 10}&onePageViewCnt=${onePageViewCnt}&searchKeyword=${searchKeyword}&searchWord=${searchWord}" class="page-link" aria-label="Next">
                                 			<i class="ti-angle-right"></i>다음

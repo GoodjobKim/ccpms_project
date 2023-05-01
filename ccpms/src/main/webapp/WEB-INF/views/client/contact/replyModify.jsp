@@ -34,12 +34,6 @@
 								        </c:choose>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                    	<p>비밀번호 <span>*</span></p>
-                                        <input class="form-control" name="passwd" id="passwd" type="password" placeholder="Enter the Password">
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <textarea class="form-control w-100" name="content" id="content" cols="30" rows="9">

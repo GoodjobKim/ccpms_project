@@ -34,7 +34,7 @@
 	                                <!-- form -->
 	                                <form action="${contextPath }/goods/searchGoods" method="get" class="search-box">
 	                                    <div class="input-form mb-30">
-	                                        <input type="text" placeholder="찾으려는 공연이 있나요 ?" name="word">
+	                                        <input type="text" placeholder="찾으려는 공연이 있나요 ?" name="searchWord">
 	                                        <input type="hidden" name="method" value="search">
 	                                    </div>
 	                                    <div class="select-form mb-30">

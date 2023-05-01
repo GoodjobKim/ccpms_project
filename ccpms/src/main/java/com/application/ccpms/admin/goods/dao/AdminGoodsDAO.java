@@ -14,4 +14,6 @@ public interface AdminGoodsDAO {
 
 	public void updateGoods(GoodsDTO goodsDTO) throws Exception;
 
+	public void updateShowStatus(GoodsDTO goodsDTO) throws Exception;
+
 }

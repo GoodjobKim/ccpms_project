@@ -10,7 +10,7 @@ public interface MyPageDAO {
 
 	public List<Map<String, Object>> selectListMyOrder(String memberId) throws Exception;
 
-	public void deleteMyOrder(long orderCheck) throws Exception;
+	public void deleteMyOrder(int[] deleteOrderCheckList) throws Exception;
 
 	public List<Map<String, Object>> selectListMyCart(String memberId) throws Exception;
 

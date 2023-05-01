@@ -54,6 +54,21 @@ public class MemberServiceImpl implements MemberService {
 	public int getMyCartCnt(String memberId) throws Exception {
 		return memberDAO.selectMyCartCnt(memberId);
 	}
-	
+
+	@Override
+	public String findId(MemberDTO memberDTO) throws Exception {
+		MemberDTO dbMember = memberDAO.selectId(memberDTO);
+		if(dbMember != null) {
+			return dbMember.getMemberId();
+		}
+		return "";
+		
+	}
+
+	@Override
+	public void resetPasswd(MemberDTO memberDTO) throws Exception{
+		memberDTO.setPasswd(bCryptPasswordEncoder.encode(memberDTO.getPasswd()));
+		memberDAO.resetPasswd(memberDTO);
+	}
 	
 }

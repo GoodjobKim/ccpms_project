@@ -20,7 +20,7 @@
 								<!-- logo -->
 								<div class="footer-logo">
 									<a href="${contextPath }/"><img
-										src="${contextPath }/resources/gotrip-master/assets/img/logo/logo2_footer.png"
+										src="${contextPath }/resources/gotrip-master/assets/img/logo/ccpms_outline.svg"
 										alt=""></a>
 								</div>
 								<div class="footer-tittle">

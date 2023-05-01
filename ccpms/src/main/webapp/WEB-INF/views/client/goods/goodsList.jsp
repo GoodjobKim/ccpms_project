@@ -40,6 +40,7 @@
 		}
 		
 	};
+	
 </script>
 </head>
 <body>
@@ -105,7 +106,7 @@
                             <form action="${contextPath }/goods/searchGoods" method="get">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-										<input type="text" name="word" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+										<input type="text" name="searchWord" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
 										<input type="hidden" name="method" value="search">
                                         <div class="input-group-append">
                                             <button class="btns" type="button"><i class="ti-search"></i></button>
@@ -212,33 +213,10 @@
                                 </li>
                             </ul>
                         </aside>
-                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-	<!-- Pagination-area Start -->
-        <div class="pagination-area pb-100 text-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="single-wrap d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-start">
-                                  <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow roted left-arrow"></span></a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                  <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow right-arrow"></span></a></li>
-                                </ul>
-                              </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-	<!-- Pagination-area End -->
 </body>
 </html>

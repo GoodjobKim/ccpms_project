@@ -15,16 +15,6 @@ public class GoodsServiceImpl implements GoodsService {
 	private GoodsDAO goodsDAO;
 
 	@Override
-	public List<GoodsDTO> getGoodsLsit(GoodsDTO goodsDTO) throws Exception {
-		return goodsDAO.selectListGoods(goodsDTO);
-	}
-
-	@Override
-	public List<GoodsDTO> getSearchGoodsList(Map<String, Object> searchMap) throws Exception {
-		return goodsDAO.selectListSearchGoods(searchMap);
-	}
-
-	@Override
 	public GoodsDTO getGoodsDetail(int goodsCd) throws Exception {
 		return goodsDAO.selectOneGoodsDetail(goodsCd);
 	}
@@ -32,5 +22,15 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public List<GoodsDTO> getRelatedGoodsList(GoodsDTO goodsDTO) throws Exception {
 		return goodsDAO.selectRelatedGoodsList(goodsDTO);
+	}
+
+	@Override
+	public List<GoodsDTO> getCategoryGoods(GoodsDTO goodsDTO) throws Exception {
+		return goodsDAO.selectListCategoryGoods(goodsDTO);
+	}
+
+	@Override
+	public List<GoodsDTO> getSearchGoodsList(Map<String, Object> searchMap) throws Exception {
+		return goodsDAO.selectListSearchGoods(searchMap);
 	}
 }

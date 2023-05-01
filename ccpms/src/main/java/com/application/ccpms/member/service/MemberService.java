@@ -14,4 +14,8 @@ public interface MemberService {
 
 	public int getMyCartCnt(String attribute) throws Exception;
 
+	public String findId(MemberDTO memberDTO) throws Exception;
+
+	public void resetPasswd(MemberDTO memberDTO) throws Exception;
+
 }

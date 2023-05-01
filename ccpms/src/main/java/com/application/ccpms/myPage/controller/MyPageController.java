@@ -20,6 +20,7 @@ import com.application.ccpms.member.service.MemberService;
 import com.application.ccpms.myPage.dto.CartDTO;
 import com.application.ccpms.myPage.service.MyPageService;
 
+
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
@@ -34,6 +35,7 @@ public class MyPageController {
 	public ModelAndView main(@RequestParam("memberId") String memberId) throws Exception{
 		ModelAndView mv = new ModelAndView("/myPage/myInfo");
 		mv.addObject("memberDTO", myPageService.getMyInfo(memberId));
+		
 		return mv;
 	}
 	
@@ -83,9 +85,17 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myOrderRemove")
-	public ResponseEntity<Object> myOrderDelete(@RequestParam("orderCheck") long orderCheck) throws Exception{
+	public ResponseEntity<Object> myOrderDelete(@RequestParam("orderCheckList") String orderCheckList, HttpServletRequest request) throws Exception{
 		
-		myPageService.removeOrder(orderCheck);
+		String[] temp = orderCheckList.split(",");
+		int[] deleteOrderCheckList = new int[temp.length];
+		for (int i = 0; i < temp.length; i++) {
+			deleteOrderCheckList[i] = Integer.parseInt(temp[i]);
+		}
+		
+		myPageService.removeOrder(deleteOrderCheckList);
+		
+		HttpSession session = request.getSession();
 		
 		String jsScript = "<script>";
 				jsScript += " alert('주문을 취소하였습니다.');";

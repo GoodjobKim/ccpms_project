@@ -29,12 +29,19 @@
                             <div class="header-info-right f-right">
                                 <ul class="header-social">
                                 	<c:choose>
-                                		<c:when test="${sessionScope.memberId eq null }">
-                                			<li><i class="fa fa-user"></i><a href="${contextPath }/member/login">Login</a></li>
-		                                    <li><a href="${contextPath }/member/register">Register</a></li>
+                                		<c:when test="${sessionScope.memberId != null }">
+                                			<li style="color: white;">안녕하세요. ${sessionScope.memberId }님</li>
+                                			<li><a href="${contextPath }/member/logout">logout</a></li>
+                                		</c:when>
+                                		<c:when test="${sessionScope.adminId != null }">
+                                			<li style="color: white;">안녕하세요. ${sessionScope.adminId }님</li>
+                                			<li><a href="${contextPath }/member/logout">logout</a></li>
                                 		</c:when>
                                 		<c:otherwise>
-                                			<li><a href="${contextPath }/member/logout">logout</a></li>
+                                			<li><i class="fa fa-user"></i><a href="${contextPath }/member/login">Login</a></li>
+		                                    <li><a href="${contextPath }/member/register">Register</a></li>
+		                                    <li><a href="${contextPath }/member/findId">Find Id</a></li>
+		                                    <li><a href="${contextPath }/member/findPasswd">Find Passwd</a></li>
                                 		</c:otherwise>
                                 	</c:choose>
                                 </ul>
@@ -49,7 +56,7 @@
                             <!-- Logo -->
                             <div class="col-xl-2 col-lg-2 col-md-1">
                                 <div class="logo">
-                                  <a href="${contextPath }/"><img src="${contextPath }/resources/gotrip-master/assets/img/logo/logo.png" alt=""></a>
+                                  <a href="${contextPath }/"><img src="${contextPath }/resources/gotrip-master/assets/img/logo/ccpms_png.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="col-xl-10 col-lg-10 col-md-10">
@@ -62,15 +69,14 @@
 			                                		<li><a href="${contextPath }/admin/goods/adminGoodsList">상품관리</a></li>
 			                                		<li><a href="${contextPath }/admin/member/adminMemberList">유저관리</a></li>
 			                                		<li><a href="${contextPath }/admin/order/adminOrderList">주문관리</a></li>
-			                                		<li><a href="#">1:1문의 관리</a>
+			                                		<li><a href="${contextPath }/contact/FAQ">고객센터</a>
 			                                			<ul class="submenu">
 		                                                    <li><a href="${contextPath }/contact/FAQ">자주묻는 질문</a></li>
-		                                                    <li><a href="${contextPath }/contact/contactNotice">1:1 문의</a></li>
+		                                                    <li><a href="${contextPath }/contact/contactNotice">1:1문의</a></li>
 		                                                </ul>
 			                                		</li>
 			                                	</c:when>
 			                                	<c:otherwise>
-			                                		<li><a href="${contextPath }/">Home</a></li>
 		                                            <li><a href="${contextPath }/goods/goodsList?sort=all&part=all&genre=all&location=all">공연목록</a></li>
 		                                            <li><a href="#">내정보</a>
 		                                                <ul class="submenu">
@@ -79,10 +85,10 @@
 		                                                    <li><a href="${contextPath }/myPage/myCartList">장바구니</a></li>
 		                                                </ul>
 		                                            </li>
-		                                            <li><a href="#">고객센터</a>
+		                                            <li><a href="${contextPath }/contact/FAQ">고객센터</a>
 		                                            	<ul class="submenu">
 		                                                    <li><a href="${contextPath }/contact/FAQ">자주묻는 질문</a></li>
-		                                                    <li><a href="${contextPath }/contact/contactNotice">1:1 문의</a></li>
+		                                                    <li><a href="${contextPath }/contact/contactNotice">1:1문의</a></li>
 		                                                </ul>
 		                                            </li>
 			                                	</c:otherwise>

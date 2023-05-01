@@ -16,16 +16,6 @@ public class GoodsDAOImpl implements GoodsDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<GoodsDTO> selectListGoods(GoodsDTO goodsDTO) throws Exception {
-		return sqlSession.selectList("goods.selectListGoods", goodsDTO);
-	}
-
-	@Override
-	public List<GoodsDTO> selectListSearchGoods(Map<String, Object> searchMap) throws Exception {
-		return sqlSession.selectList("goods.selectListSearchGoods", searchMap);
-	}
-
-	@Override
 	public GoodsDTO selectOneGoodsDetail(int goodsCd) throws Exception {
 		return sqlSession.selectOne("goods.selectOneGoods", goodsCd);
 	}
@@ -33,5 +23,15 @@ public class GoodsDAOImpl implements GoodsDAO {
 	@Override
 	public List<GoodsDTO> selectRelatedGoodsList(GoodsDTO goodsDTO) throws Exception {
 		return sqlSession.selectList("goods.selectListRelatedGoods", goodsDTO);
+	}
+
+	@Override
+	public List<GoodsDTO> selectListCategoryGoods(GoodsDTO goodsDTO) throws Exception {
+		return sqlSession.selectList("goods.selectListCategoryGoods", goodsDTO);
+	}
+
+	@Override
+	public List<GoodsDTO> selectListSearchGoods(Map<String, Object> searchMap) throws Exception {
+		return sqlSession.selectList("goods.selectListSearchGoods", searchMap);
 	}
 }

@@ -273,8 +273,8 @@
 						</div>
 					</div>
 					<div class="blog-author">
-						<c:forEach var="relatedGoods" items="${relatedGoodsList }">
-							<div class="media align-items-center">
+						<div class="media align-items-center">
+							<c:forEach var="relatedGoods" items="${relatedGoodsList }">
 								<div class="col-xl-4 col-lg-4 col-md-6">
 									<div class="single-place mb-30">
 										<div class="place-img" align="center">
@@ -296,8 +296,8 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-4">

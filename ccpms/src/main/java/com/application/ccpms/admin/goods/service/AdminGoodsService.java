@@ -14,4 +14,6 @@ public interface AdminGoodsService {
 
 	public void modifyGoods(GoodsDTO goodsDTO) throws Exception;
 
+	public void updateShowStatus() throws Exception;
+
 }

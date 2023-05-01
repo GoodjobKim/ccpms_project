@@ -98,7 +98,6 @@
 										onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" required	class="single-input">
 							</div>	<br>
 							
-							<!-- 디자인 무너진거 나중에 한번에 수정하기 -->
 							<p>성별 <span>*</span></p>
 							<div class="switch-wrap d-flex justify-content-between">
 								남<div >

@@ -56,6 +56,11 @@ public class ContactDAOImpl implements ContactDAO {
 		sqlSession.delete("contactMapper.deleteBoard", boardDTO);
 	}
 	
+	@Override
+	public void adminDeleteBoard(Contact_boardDTO boardDTO) throws Exception {
+		sqlSession.delete("contactMapper.adminDeleteBoard", boardDTO);
+	}
+	
 	
 	@Override
 	public int selectOneAllReplyCnt(long boardId) throws Exception {
@@ -91,6 +96,5 @@ public class ContactDAOImpl implements ContactDAO {
 	public void deleteReply(Contact_replyDTO replyDTO) throws Exception {
 		sqlSession.delete("contactMapper.removeReply", replyDTO);
 	}
-
 
 }

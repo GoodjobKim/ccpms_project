@@ -8,6 +8,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	$(function(){
+		$("#ticket").click(function(){
+			$(".recallPage").hide();
+			$(".cancelPage").hide();
+			$(".ticketPage").show();
+		});
+		$("#cancel").click(function(){
+			$(".cancelPage").show();
+			$(".recallPage").hide();
+			$(".ticketPage").hide();
+		});
+		$("#recall").click(function(){
+			$(".recallPage").show();
+			$(".cancelPage").hide();
+			$(".ticketPage").hide();
+		});
+	})
+</script>
 </head>
 <body>
     <section class="blog_area section-padding">
@@ -17,7 +36,7 @@
                     <div class="blog_left_sidebar">
 						<article class="blog_item">
 							<div class="accordion" id="accordionPanelsStayOpenExample">
-								<div class="accordion-item">
+								<div class="accordion-item recallPage">
 									<h2 class="accordion-header" id="panelsStayOpen-headingOne">
 										<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
 											<h5>예매한 티켓은 언제 배송되나요?</h5>
@@ -52,7 +71,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="accordion-item">
+								<div class="accordion-item ticketPage">
 									<h2 class="accordion-header" id="panelsStayOpen-headingTwo">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
 											<h5>공연 예매가 가능한 결제수단은 어떤 것들이 있나요?</h5>
@@ -85,7 +104,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="accordion-item">
+								<div class="accordion-item cancelPage">
 									<h2 class="accordion-header" id="panelsStayOpen-headingThree">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
 											<h5>티켓을 이미 우송 받았는데 취소하고 싶어요!</h5>
@@ -125,7 +144,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="accordion-item">
+								<div class="accordion-item cancelPage">
 									<h2 class="accordion-header" id="panelsStayOpen-headingFour">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
 											<h5>공연 예매 후 수량을 일부만 취소할 수 있나요?</h5>
@@ -159,7 +178,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="accordion-item">
+								<div class="accordion-item ticketPage">
 									<h2 class="accordion-header" id="panelsStayOpen-headingFive">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
 											<h5>예약번호입장(현장수령)으로 예매할 경우 대리인 수령이 가능한가요?</h5>
@@ -222,38 +241,17 @@
 							<h4 class="widget_title">FAQ</h4>
 							<ul class="list cat-list">
 								<li><a href="#" class="d-flex">
-										<p>회원</p>
+									<p id="ticket">티켓예매/발권</p>
 								</a></li>
 								<li><a href="#" class="d-flex">
-										<p>로그인</p>
+									<p id="cancel">취소/환불</p>
 								</a></li>
 								<li><a href="#" class="d-flex">
-										<p>아이디/패스워드</p>
+									<p id="recall">배송/반송</p>
 								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>예매/결제</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>배송/반송</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>취소/환불</p>
 								</a></li>
 							</ul>
 						</aside>
-                        <aside class="single_sidebar_widget tag_cloud_widget">
-							<h4 class="widget_title">Tag Clouds</h4>
-							<ul class="list">
-								<li><a href="#">취소</a></li>
-								<li><a href="#">환불</a></li>
-								<li><a href="#">회원</a></li>
-								<li><a href="#">배송</a></li>
-								<li><a href="#">티켓수령</a></li>
-								<li><a href="#">제휴문의</a></li>
-								<li><a href="#">수수료</a></li>
-							</ul>
-						</aside>
-
                     </div>
                 </div>
             </div>

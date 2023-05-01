@@ -35,5 +35,15 @@ public class MemberDAOImpl implements MemberDAO {
 	public int selectMyCartCnt(String memberId) throws Exception {
 		return sqlSession.selectOne("member.selectMyCartCnt", memberId);
 	}
+
+	@Override
+	public MemberDTO selectId(MemberDTO memberDTO) throws Exception {
+		return sqlSession.selectOne("member.selectId", memberDTO);
+	}
+
+	@Override
+	public void resetPasswd(MemberDTO memberDTO) throws Exception {
+		sqlSession.update("member.resetPasswd", memberDTO);
+	}
 	
 }

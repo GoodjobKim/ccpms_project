@@ -24,7 +24,9 @@ public interface ContactDAO {
 	
 	public void deleteBoard(Contact_boardDTO boardDTO) throws Exception;
 	
+	public void adminDeleteBoard(Contact_boardDTO boardDTO) throws Exception;
 
+	
 	public int selectOneAllReplyCnt(long boardId) throws Exception;
 
 	public List<Contact_replyDTO> selectListReply(long boardId) throws Exception;
@@ -39,6 +41,7 @@ public interface ContactDAO {
 
 	public void deleteReply(Contact_replyDTO replyDTO) throws Exception;
 
+	
 
 
 }

@@ -41,7 +41,14 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<p>비밀번호 <span>*</span></p>
-									<input class="form-control valid" name="passwd" id="passwd" type="password">
+									<c:choose>
+										<c:when test="${sessionScope.role eq 'admin'}">
+										
+										</c:when>
+										<c:otherwise>
+											<input class="form-control valid" name="passwd" id="passwd" type="password">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</div>

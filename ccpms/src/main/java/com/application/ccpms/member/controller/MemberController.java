@@ -97,6 +97,93 @@ public class MemberController {
 				
 		return new ResponseEntity<Object>(message, responseHeaders, HttpStatus.OK);
 
+	}
+	
+	@GetMapping("/findId")
+	public ModelAndView findId() throws Exception{
+		return new ModelAndView("/member/findId");
+	}
+	
+	@GetMapping("/findMember")
+	public ModelAndView findMember(MemberDTO memberDTO) throws Exception{
+		ModelAndView mv = new ModelAndView("/member/findMember");
+		mv.addObject("memberDTO", memberDTO);
 		
+		return mv;
+	}
+	
+	@PostMapping("/findId")
+	public ResponseEntity<String> findId(MemberDTO memberDTO, HttpServletRequest request) throws Exception{
+		
+		String jsScript = "";
+		String id = memberService.findId(memberDTO);
+		if(!id.equals("")) {
+			jsScript = "<script>";
+			jsScript += " location.href='" +request.getContextPath()+ "/member/findMember?memberId="+id+"';";	
+			jsScript += "</script>";
+		}
+		else {
+			jsScript = "<script>";
+			jsScript += "alert('이름과 연락처를 확인해주세요.');";
+			jsScript += "history.go(-1);";
+			jsScript += "</script>";
+		}
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		return new ResponseEntity<String>(jsScript, responseHeaders, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/findPasswd")
+	public ModelAndView findPasswd() throws Exception{
+		return new ModelAndView("/member/findPasswd");
+	}
+	
+	@PostMapping("/findPasswd")
+	public ResponseEntity<Object> findPasswd(@RequestParam("memberId") String memberId ,HttpServletRequest request) throws Exception{
+		String jsScript = "";
+		String id = memberService.checkDuplicated(memberId);
+		if(id.equals("notDuplicate")) {
+			jsScript = "<script>";
+			jsScript += " location.href='" +request.getContextPath()+ "/member/resetPasswd?memberId="+memberId+"';";	
+			jsScript += "</script>";
+		}
+		else {
+			jsScript = "<script>";
+			jsScript += "alert('아이디가 존재하지 않습니다.');";
+			jsScript += "history.go(-1);";
+			jsScript += "</script>";
+		}
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		return new ResponseEntity<Object>(jsScript, responseHeaders, HttpStatus.OK);
+	}
+
+	@GetMapping("/resetPasswd")
+	public ModelAndView resetPasswd(MemberDTO memberDTO) throws Exception{
+		ModelAndView mv = new ModelAndView("/member/resetPasswd");
+		mv.addObject("memberDTO", memberDTO);
+		
+		return mv;
+	}
+	
+	@PostMapping("/resetPasswd")
+	public ResponseEntity<Object> resetPasswd(MemberDTO memberDTO, HttpServletRequest request) throws Exception{
+		
+		memberService.resetPasswd(memberDTO);
+		
+		String jsScript = "<script>";
+				jsScript += "alert('비밀번호가 변경 되었습니다.');";
+				jsScript += " location.href=' "+ request.getContextPath() + "/member/login';";
+				jsScript += "</script>";
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		return new ResponseEntity<Object>(jsScript, responseHeaders, HttpStatus.OK);
 	}
 }

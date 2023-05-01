@@ -1,6 +1,9 @@
 package com.application.ccpms.goods.controller;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,21 +23,22 @@ public class GoodsController {
 	private GoodsService goodsService;
 	
 	@GetMapping("/goodsList")
-	public ModelAndView goodsList(@ModelAttribute GoodsDTO goodsDTO) throws Exception{
+	public ModelAndView goodsList(@ModelAttribute GoodsDTO goodsDTO, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("/goods/goodsList");
 		
-		mv.addObject("goodsList", goodsService.getGoodsLsit(goodsDTO));
+		mv.addObject("goodsList", goodsService.getCategoryGoods(goodsDTO));
 		
 		return mv;
 	}
 	
 	@GetMapping("/searchGoods")
-	public ModelAndView goodsSearch(@RequestParam Map<String,Object> searchMap) throws Exception {
+	public ModelAndView goodsSearch(@RequestParam Map<String, Object> searchMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/goods/goodsList");
 		
 		mv.addObject("goodsList", goodsService.getSearchGoodsList(searchMap));
 		
 		return mv;
+		
 	}
 	
 	@GetMapping("/goodsDetail")

@@ -9,6 +9,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
+	<c:if test="${sessionScope.memberId != boardDTO.memberId && sessionScope.adminId == null}">
+	    <script>
+	        alert("비밀 게시글 입니다.");
+	        location.href = "${contextPath}/contact/contactNotice";
+	    </script>
+	</c:if>
+	
+
 	<section class="blog_area single-post-area section-padding">
 		<div class="container">
 			<div class="row">
@@ -52,22 +61,30 @@
 													<div class="d-flex justify-content-between" align="right">
 														<div class="d-flex align-items-center">
 															<h5>
-																<c:choose>
-									                                <c:when test="${sessionScope.role eq 'admin' }">
-									                                	${replyDTO.adminId }
-									                               	</c:when>
-									                               	<c:otherwise>
-									                               		${replyDTO.memberId }
-									                               	</c:otherwise>
-								                               	</c:choose>
+									                             ${replyDTO.adminId }
+									                             ${replyDTO.memberId }
 															</h5>
 															<p class="date"><fmt:formatDate value="${replyDTO.enrollDt }" pattern="yyyy-MM-dd HH:mm:ss" /></p>
 														</div>
 														<div class="reply-btn">
-															<a href="${contextPath}/contact/replyModify?replyId=${replyDTO.replyId }" class="btn-reply text-uppercase">수정</a>
+															<c:choose>
+																<c:when test="${sessionScope.role eq 'client' && replyDTO.adminId eq 'ccpmsadmin' }">
+																	<a href="#" class="btn-reply text-uppercase">수정불가</a>
+																</c:when>
+																<c:otherwise>
+																	<a href="${contextPath}/contact/replyModify?replyId=${replyDTO.replyId }" class="btn-reply text-uppercase">수정</a>
+																</c:otherwise>
+															</c:choose>
 														</div>
 														<div class="reply-btn">
-															<a href="${contextPath}/contact/replyRemove?replyId=${replyDTO.replyId }" class="btn-reply text-uppercase">삭제</a>
+															<c:choose>
+																<c:when test="${sessionScope.role eq 'client' && replyDTO.adminId eq 'ccpmsadmin' }">
+																	<a href="#" class="btn-reply text-uppercase">삭제불가</a>
+																</c:when>
+																<c:otherwise>
+																	<a href="${contextPath}/contact/replyRemove?replyId=${replyDTO.replyId }" class="btn-reply text-uppercase">삭제</a>
+																</c:otherwise>
+															</c:choose>
 														</div>
 													</div>
 													<br>
@@ -96,11 +113,6 @@
 		                               	</c:choose>
 									</div>
 								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<input class="form-control" name="passwd" id="passwd" type="password" placeholder="Enter password">
-									</div>
-								</div>
 								<div class="col-12">
 									<div class="form-group">
 										<textarea class="form-control w-100" name="content" id="content" cols="30" rows="9" placeholder="Write Comment"></textarea>
@@ -111,23 +123,6 @@
 								<button type="submit" class="button button-contactForm btn_1 boxed-btn">댓글 등록</button>
 							</div>
 						</form>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="blog_right_sidebar">
-						<aside class="single_sidebar_widget post_category_widget">
-							<h4 class="widget_title">Category</h4>
-							<ul class="list cat-list">
-								<li><a href="#" class="d-flex">
-										<p>뭘 좀 넣어볼까</p>
-										<p>(37)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Travel news</p>
-										<p>(10)</p>
-								</a></li>
-							</ul>
-						</aside>
 					</div>
 				</div>
 			</div>

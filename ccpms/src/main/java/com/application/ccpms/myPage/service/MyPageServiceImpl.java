@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.application.ccpms.member.dao.MemberDAO;
 import com.application.ccpms.member.dto.MemberDTO;
 import com.application.ccpms.myPage.dao.MyPageDAO;
 import com.application.ccpms.myPage.dto.CartDTO;
@@ -15,15 +17,20 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Autowired
 	private MyPageDAO myPageDAO;
-
+	
+	@Autowired
+	private MemberDAO memberDAO;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Override
 	public List<Map<String, Object>> getMyOrderList(String memberId) throws Exception {
 		return myPageDAO.selectListMyOrder(memberId);
 	}
 
 	@Override
-	public void removeOrder(long orderCheck) throws Exception{
-		myPageDAO.deleteMyOrder(orderCheck);
+	public void removeOrder(int[] deleteOrderCheckList) throws Exception{
+		myPageDAO.deleteMyOrder(deleteOrderCheckList);
 	}
 
 	@Override
@@ -59,6 +66,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public void modifyInfo(MemberDTO memberDTO) throws Exception {
+		memberDTO.setPasswd(bCryptPasswordEncoder.encode(memberDTO.getPasswd()));
 		if(memberDTO.getSmsstsYn() == null)		memberDTO.setSmsstsYn("N");
 		if(memberDTO.getEmailstsYn() == null)	memberDTO.setEmailstsYn("N");
 		myPageDAO.updateMyInfo(memberDTO);

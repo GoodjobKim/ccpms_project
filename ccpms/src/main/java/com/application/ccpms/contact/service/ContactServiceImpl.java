@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.application.ccpms.contact.dao.ContactDAO;
 import com.application.ccpms.contact.dto.Contact_boardDTO;
 import com.application.ccpms.contact.dto.Contact_replyDTO;
+import com.application.ccpms.member.dto.MemberDTO;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -47,13 +48,8 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
-	public boolean modifyBoard(Contact_boardDTO boardDTO) throws Exception {
-		boolean isUpdate = false;
-		if(bCryptPasswordEncoder.matches(boardDTO.getPasswd(), contactDAO.selectOneBoardCheckUser(boardDTO.getBoardId()))) {
-			isUpdate = true;
-			contactDAO.updateBoard(boardDTO);
-		}
-		return isUpdate;
+	public void modifyBoard(Contact_boardDTO boardDTO) throws Exception {
+		contactDAO.updateBoard(boardDTO);
 	}
 
 	@Override
@@ -65,6 +61,12 @@ public class ContactServiceImpl implements ContactService {
 		}
 		return isDelete;
 	}
+
+	@Override
+	public void adminRemoveBoard(Contact_boardDTO boardDTO) throws Exception {
+		contactDAO.adminDeleteBoard(boardDTO);
+	}
+	
 	
 	
 	@Override
@@ -79,7 +81,6 @@ public class ContactServiceImpl implements ContactService {
 
 	@Override
 	public void addReply(Contact_replyDTO replyDTO) throws Exception {
-		replyDTO.setPasswd(bCryptPasswordEncoder.encode(replyDTO.getPasswd()));
 		contactDAO.insertReply(replyDTO);
 	}
 
@@ -89,26 +90,14 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
-	public boolean modifyReply(Contact_replyDTO replyDTO) throws Exception {
-		boolean isUpdate = false;
-		if(bCryptPasswordEncoder.matches(replyDTO.getPasswd(), contactDAO.selectOneReplyCheckUser(replyDTO.getReplyId()))) {
-			isUpdate = true;
-			contactDAO.updateReply(replyDTO);
-		}
-		return isUpdate;
+	public void modifyReply(Contact_replyDTO replyDTO) throws Exception {
+		contactDAO.updateReply(replyDTO);
 	}
 
 	@Override
-	public boolean removeReply(Contact_replyDTO replyDTO) throws Exception {
-		boolean isDelete = false;
-		if(bCryptPasswordEncoder.matches(replyDTO.getPasswd(), contactDAO.selectOneReplyCheckUser(replyDTO.getReplyId()))) {
-			isDelete = true;
-			contactDAO.deleteReply(replyDTO);
-		}
-		return isDelete;
+	public void removeReply(Contact_replyDTO replyDTO) throws Exception {
+		contactDAO.deleteReply(replyDTO);
 	}
-
-
 
 
 }

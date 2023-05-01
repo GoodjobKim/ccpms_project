@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.application.ccpms.contact.dto.Contact_boardDTO;
 import com.application.ccpms.contact.dto.Contact_replyDTO;
 import com.application.ccpms.contact.service.ContactService;
+import com.application.ccpms.member.dto.MemberDTO;
 
 @Controller
 @RequestMapping("/contact")
@@ -43,8 +45,8 @@ public class ContactController {
 		String searchWord = request.getParameter("searchWord");
 		if(searchWord == null) searchWord = "";
 		
-		int onePageViewCnt = 10;
-		if(request.getParameter("onePageViewCmt") != null) {
+		int onePageViewCnt = 5;
+		if(request.getParameter("onePageViewCnt") != null) {
 			onePageViewCnt = Integer.parseInt(request.getParameter("onePageViewCnt"));
 		}
 		String temp = request.getParameter("currentPageNumber");
@@ -66,7 +68,7 @@ public class ContactController {
 			startPage = 1;
 		}
 		int endPage = startPage + 9;
-		if(endPage > allBoardCnt) endPage = allPageCnt;
+		if(endPage >= allBoardCnt) endPage = allPageCnt;
 		
 		int startBoardIdx = (currentPageNumber - 1) * onePageViewCnt;
 		
@@ -112,9 +114,9 @@ public class ContactController {
 	}
 	
 	@GetMapping("/contactDetail")
-	public ModelAndView boardDetail(@RequestParam("boardId") long boardId) throws Exception {
+	public ModelAndView boardDetail(@RequestParam("boardId") long boardId, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("/contact/contactDetail");
-		
+
 		Contact_boardDTO boardDTO = contactService.getBoardDetail(boardId, true);
 		
 		mv.addObject("boardDTO", boardDTO);
@@ -123,6 +125,7 @@ public class ContactController {
 		
 		return mv;
 	}
+	
 	
 	@GetMapping("/contactModify")
 	public ModelAndView contactModify (@RequestParam("boardId") long boardId) throws Exception{
@@ -135,20 +138,13 @@ public class ContactController {
 	@PostMapping("/contactModify")
 	public ResponseEntity<Object> contactModify(Contact_boardDTO boardDTO, HttpServletRequest request) throws Exception{
 		
-		String jsScript = "";
+		contactService.modifyBoard(boardDTO);
 		
-		if(contactService.modifyBoard(boardDTO)) {
-			jsScript = "<script>";
-			jsScript += " alert('게시글을 수정하였습니다.');";
-			jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
-			jsScript += "</script>";
-		}
-		else {
-			jsScript = "<script>";
-			jsScript += " alert('비밀번호를 확인하세요.');";
-			jsScript += "history.go(-1);";	
-			jsScript += "</script>";
-		}
+		String jsScript = "<script>";
+				jsScript += " alert('게시글을 수정하였습니다.');";
+				jsScript += " location.href='" + request.getContextPath() + "/contact/contactDetail?boardId=" + boardDTO.getBoardId() + "';";	
+				jsScript += "</script>";
+		
 
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
@@ -169,19 +165,32 @@ public class ContactController {
 		
 		String jsScript = "";
 		
-		if(contactService.removeBoard(boardDTO)) {
-			jsScript = "<script>";
+		HttpSession session = request.getSession();
+		
+	    String role = (String) session.getAttribute("role");
+	    
+	    if ("client".equals(role)) {
+	    	if(contactService.removeBoard(boardDTO)) {
+				jsScript = "<script>";
+				jsScript += " alert('게시글을 삭제하였습니다.');";
+				jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
+				jsScript += "</script>";
+			}
+	    	else {
+				jsScript = "<script>";
+				jsScript += " alert('비밀번호를 확인하세요.');";
+				jsScript += "history.go(-1);";	
+				jsScript += "</script>";
+			}
+	    }
+	    else {
+	    	contactService.adminRemoveBoard(boardDTO);
+	    	jsScript = "<script>";
 			jsScript += " alert('게시글을 삭제하였습니다.');";
 			jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
 			jsScript += "</script>";
-		}
-		else {
-			jsScript = "<script>";
-			jsScript += " alert('비밀번호를 확인하세요.');";
-			jsScript += "history.go(-1);";	
-			jsScript += "</script>";
-		}
-
+	    }
+		
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		
@@ -195,7 +204,7 @@ public class ContactController {
 		
 		String jsScript = "<script>";
 				jsScript += " alert('댓글을 등록하였습니다.');";
-				jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
+				jsScript += " location.href='" + request.getContextPath() + "/contact/contactDetail?boardId=" + replyDTO.getBoardId() + "';";	
 				jsScript += "</script>";
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -216,20 +225,11 @@ public class ContactController {
 	@PostMapping("/replyModify")
 	public ResponseEntity<Object> replyModify(Contact_replyDTO replyDTO, HttpServletRequest request) throws Exception{
 		
-		String jsScript = "";
-		
-		if(contactService.modifyReply(replyDTO)) {
-			jsScript = "<script>";
-			jsScript += " alert('댓글을 수정하였습니다.');";
-			jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
-			jsScript += "</script>";
-		}
-		else {
-			jsScript = "<script>";
-			jsScript += " alert('비밀번호를 확인하세요.');";
-			jsScript += "history.go(-1);";	
-			jsScript += "</script>";
-		}
+		contactService.modifyReply(replyDTO);
+		String jsScript = "<script>";
+				jsScript += " alert('댓글을 수정하였습니다.');";
+				jsScript += " location.href='" + request.getContextPath() + "/contact/contactDetail?boardId=" + replyDTO.getBoardId() + "';";	
+				jsScript += "</script>";
 
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
@@ -248,24 +248,16 @@ public class ContactController {
 	@PostMapping("/replyRemove")
 	public ResponseEntity<Object> replyDelete(Contact_replyDTO replyDTO, HttpServletRequest request) throws Exception{
 		
-		String jsScript = "";
-		
-		if(contactService.removeReply(replyDTO)) {
-			jsScript = "<script>";
-			jsScript += " alert('댓글을 삭제하였습니다.');";
-			jsScript += " location.href='" +request.getContextPath()+ "/contact/contactNotice';";	
-			jsScript += "</script>";
-		}
-		else {
-			jsScript = "<script>";
-			jsScript += " alert('비밀번호를 확인하세요.');";
-			jsScript += "history.go(-1);";	
-			jsScript += "</script>";
-		}
-		
+		contactService.removeReply(replyDTO);
+		String jsScript = "<script>";
+				jsScript += " alert('댓글을 삭제하였습니다.');";
+				jsScript += " location.href='" + request.getContextPath() + "/contact/contactDetail?boardId=" + replyDTO.getBoardId() + "';";	
+				jsScript += "</script>";
+			
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 
 		return new ResponseEntity<Object>(jsScript, responseHeaders, HttpStatus.OK);
 	}
+	
 }

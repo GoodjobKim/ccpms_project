@@ -40,12 +40,6 @@
 									<fmt:formatDate value="${replyDTO.enrollDt }" pattern="yyyy-MM-dd"/>
 								</div>
 							</div>
-							<div class="col-12">
-								<div class="form-group">
-									<p>비밀번호 <span>*</span></p>
-									<input class="form-control valid" name="passwd" id="passwd" type="password">
-								</div>
-							</div>
 						</div>
 						<div class="form-group mt-3" align="right">
 							<button type="submit" class="button button-contactForm boxed-btn">삭제하기</button>

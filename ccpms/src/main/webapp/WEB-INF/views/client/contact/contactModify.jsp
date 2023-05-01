@@ -25,11 +25,6 @@
                                         <input class="form-control valid" name="memberId" id="memberId" type="text" value="${boardDTO.memberId }" readonly>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="passwd" id="passwd" type="password">
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <input class="form-control valid" name="subject" id="subject" type="text" value="${boardDTO.subject }">

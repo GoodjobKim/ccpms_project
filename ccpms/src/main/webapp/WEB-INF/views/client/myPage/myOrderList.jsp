@@ -7,18 +7,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	ul{
+		list-style: none;
+		margin : 0;
+		padding : 0;
+	}
+	
+	li{
+		margin : 0 0 0 0;
+		padding : 0 0 0 0;
+		boeder : 0;
+		float : left;
+	
+	}
+</style>
 <script>
 	
 	function getOrdercheck(){
 		
-		var orderCheck = document.getElementsByName('orderCheck')
-		for (var i = 0; i < orderCheck.length; i++) {
-			if(orderCheck[i].checked){
-				location.href='${contextPath}/myPage/myOrderRemove?orderCheck='+orderCheck[i].value;
-			}
+		var orderCheckList = "";
+		if(confirm("정말로 삭제하겠습니까?")){
+			$("[name='orderCheck']:checked").each(function(){
+				orderCheckList += $(this).val() + ',';
+			})
+			location.href='${contextPath}/myPage/myOrderRemove?orderCheckList='+orderCheckList;
 		}
 	}
-	
 	
 </script>
 </head>
@@ -31,7 +46,7 @@
 	</c:if>
 
 	<div class="section-top-border">
-	<h3 class="mb-40">나의 주문목록</h3>
+	<h3 class="mb-40" align="center">나의 주문목록</h3>
 		<div class="progress-table-wrap">
 			<div class="progress-table">
 				<div class="table-head">
@@ -59,9 +74,7 @@
 								<div class="percentage">
 									<div class="col-md-4">
 										<img src="${contextPath }/thumbnails?goodsFileName=${myOrderDTO.goodsFileName }" width="150" height="200">
-										<div>
-											<h4> <a href="${contextPath }/goods/goodsDetail?goodsCd=${myOrderDTO.goodsCd}">${myOrderDTO.goodsNm }</a> | ${myOrderDTO.orderGoodsQty }개</h4>
-										</div>
+										<h4> <a href="${contextPath }/goods/goodsDetail?goodsCd=${myOrderDTO.goodsCd}">${myOrderDTO.goodsNm }</a> | ${myOrderDTO.orderGoodsQty }개</h4>
 									</div>
 								</div>
 								<div class="serial">

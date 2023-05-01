@@ -32,4 +32,9 @@ public class AdminGoodsDAOImpl implements AdminGoodsDAO {
 	public void updateGoods(GoodsDTO goodsDTO) throws Exception {
 		sqlSession.update("adminGoods.updateGoods", goodsDTO);
 	}
+
+	@Override
+	public void updateShowStatus(GoodsDTO goodsDTO) throws Exception {
+		sqlSession.update("adminGoods.updateShowStatus", goodsDTO);
+	}
 }

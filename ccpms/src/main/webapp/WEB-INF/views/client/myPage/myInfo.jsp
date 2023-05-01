@@ -10,15 +10,28 @@
 <script>
 
 	$().ready(function(){
-		var dateBirth = $("[name='dateBirth']").val().split("-");
+		var dateBirth = $('[name="dateBirth"]').val().split("-");
 		$("#birthY").val(dateBirth[0]);		
 		$("#birthM").val(dateBirth[1]);
 		$("#birthD").val(dateBirth[2]);
-		
+		console.log($("#birthY").val() + "-" + $("#birthM").val() + "-" + $("#birthD").val());
+
 		$("form").submit(function(){
-			var dateBirth = $("#birthY").val() + "-" + $("#birthM").val() + "-" + $("#birthD").val();
-			$("[name='dateBirth']").val(dateBirth);
+			
+			if($("#smsstsYn").val() != "Y"){
+				$(this).val("N");
+			}
+			if($("#emailstsYn").val() != "Y"){
+				$(this).val("N");
+			}
+			
+			if($("#passwd").val().length < 7){
+				alert("비밀번호가 너무 짧습니다.");
+				$("#passwd").focus();
+				return false;
+			}
 		});
+		
 	});
 	
 	function removeMember(){
@@ -31,12 +44,14 @@
 </head>
 <body>
 
-	<c:if test="${sessionScope.memberId eq null}">
-		<script>
-			alert("로그인을 먼저 진행해주세요.");
-			location.href = "${contextPath}/member/login";
-		</script>
-	</c:if>
+	<c:choose>
+		<c:when test="${sessionScope.memberId eq null}">
+			<script>
+				alert("로그인을 먼저 진행해주세요.");
+				location.href = "${contextPath}/member/login";
+			</script>
+		</c:when>
+	</c:choose>
 	
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section">
@@ -64,7 +79,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<p>비밀번호 <span>*</span></p>
-									<input class="form-control valid" name="passwd" id="passwd" type="password" value="${memberDTO.passwd }" readonly>
+									<input class="form-control valid" name="passwd" id="passwd" type="password" value="${memberDTO.passwd }" required>
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -90,7 +105,7 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<p>생년월일 <span>* 수정불가능하게 변경 disable말고</span></p>
+									<p>생년월일 <span>* (변경해도 값이 바뀌지않습니다.)</span></p>
 									<div class="input-group-icon mt-10">
 										<div class="default-select">
 											<select id="birthY">
